@@ -1,0 +1,106 @@
+Q-5.1.1 Write a menu-driven C program to implement the following operations on a Circular Linked List (CLL):
+Sol 5.1.1 #include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+typedef struct Node NODE;
+
+// Function to create a circular linked list with n nodes
+NODE* createCLL(int n) {
+    if (n <= 0) return NULL;
+
+    NODE *head = NULL, *temp = NULL, *newNode;
+    int val;
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &val);
+        newNode = (NODE*)malloc(sizeof(NODE));
+        newNode->data = val; 
+                if (head == NULL) {
+    return head1;
+}
+
+// Main function - menu-driven program
+int main() {
+    NODE* first = NULL;
+    NODE* second = NULL;
+    int op, n, pos, x;
+
+    while (1) {
+        printf("1.Create 2.Insert 3.Delete 4.Display 5.Reverse 6.Concat 7.Exit\n");
+        printf("choice: ");
+        scanf("%d", &op);
+
+        switch (op) {
+            case 1:
+                printf("How many nodes? ");
+                scanf("%d", &n);
+                first = createCLL(n);
+                break;
+
+            case 2:
+                printf("Position: ");
+                scanf("%d", &pos);
+                if (pos <= 0) {
+                    printf("Position not found\n");
+                } else {
+                    printf("Element: ");
+                    scanf("%d", &x);
+                    first = insertAtPositionInCLL(first, pos, x);
+                }
+                break;
+
+            case 3:
+                if (first == NULL) {
+                    printf("CLL is empty\n");
+                } else {
+                    printf("Position: ");
+                    scanf("%d", &pos);
+                    first = deleteAtPositionInCLL(first, pos);
+                }
+                break;
+
+            case 4:
+                if (first == NULL) {
+                    printf("CLL is empty\n");
+                } else {
+                    printf("Elements in CLL are: ");
+                    traverseListInCLL(first);
+                }
+                break;
+
+            case 5:
+                if (first == NULL) {
+                    printf("CLL is empty\n");
+                } else { 
+                    first = reverseCLL(first);
+                    printf("CLL reversed\n");
+                    printCLLOnly(first);
+                }
+                break;
+
+            case 6:
+                printf("Creating second CLL to concatenate...\n");
+                printf("How many nodes in second CLL? ");
+                scanf("%d", &n);
+                second = createCLL(n);
+                first = concatCLL(first, second);
+                printf("Concatenated CLL:\n");
+                printCLLOnly(first);
+                break;
+
+            case 7:
+                exit(0);
+
+            default:
+                // Handle invalid choices (optional)
+                break;
+        }
+    }
+
+    return 0;
+}
