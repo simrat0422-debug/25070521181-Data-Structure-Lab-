@@ -1,1 +1,138 @@
+Q-4.1.1 Write a menu-driven C program to implement the fundamental operations on a Singly Linked List using dynamic memory allocation.
+Sol 4.1.1 #include <stdio.h>
+#include <stdlib.h>
 
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct LinkedList {
+    struct Node* head;
+    int size;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+struct LinkedList* initializeList() {
+    struct LinkedList* list = (struct LinkedList*)malloc(sizeof(struct LinkedList));
+    if (list == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    list->head = NULL;
+    list->size = 0;
+    return list;
+}
+
+void insert(struct LinkedList* list, int data, int position) {
+    // write your code here for insertion
+	if(position <0 || position >list->size){
+		printf("Invalid position\n");
+		return ;
+	}
+	struct Node* newNode=createNode(data);
+	if(position==0){
+		newNode ->next=list->head;
+		list->head=newNode;
+	}else{
+		struct Node* temp=list->head;
+		for(int i=0;i<position-1;i++){
+			temp=temp->next;
+		}
+		newNode->next=temp->next;
+		temp->next=newNode;
+	}
+	printf("Element %d inserted at position %d\n",data,position);
+	list->size++;
+}
+void deleteNode(struct LinkedList* list, int position) {
+    // write your code here 
+	if(position<0||position>=list->size||list->head==NULL){
+		printf("Invalid position\n");
+		return ;
+	}
+	struct Node* temp=list->head;
+	if(position==0){
+		list->head=temp->next;
+		free(temp);
+	}else{
+		struct Node *prev=NULL;
+		for(int i=0;i<position;i++){
+			prev=temp;
+			temp=temp->next;
+		}
+		prev->next=temp->next;
+		free(temp);
+	}
+	printf("Element at position %d deleted\n",position);
+
+Q-4.1.2 Write a C program to implement a menu-driven application for performing operations on two Singly Linked Lists. The program should allow the user to create two singly linked lists, display them, and concatenate the second list to the end of the first list.
+Sol 4.1.2 struct node {
+    int data;
+    struct node* next;
+};
+
+typedef struct node* NODE;
+
+NODE createNode(int x) {
+    //write your code here..
+	NODE temp=(NODE)malloc(sizeof(struct node));
+	if(temp==NULL){
+		printf("Memory allocation failed\n");
+		return NULL;
+	}
+	temp->data=x;
+	temp->next=NULL;
+	return temp;
+}
+
+NODE addNode(NODE first, int x) {
+    //write your code here..
+	NODE temp=createNode(x);
+	NODE cur;
+	if(temp==NULL){
+		return first;
+	}
+	if(first==NULL)
+		return temp;
+	
+	cur=first;
+	while(cur->next!=NULL){
+		cur=cur->next;
+	}
+	cur->next=temp;
+	return first;
+}
+
+NODE concatenate(NODE t1, NODE t2) {
+    //write your code here..
+	NODE cur;
+	if(t1==NULL)
+		return t2;
+	cur=t1;
+		while(cur->next!=NULL){
+			cur=cur->next;
+		}
+		cur->next=t2;
+		return t1;
+}
+
+void displayList(NODE first) {
+    //write your code here..
+	NODE cur=first;
+	while(cur!=NULL){
+		printf("%d --> ",cur->data);
+		cur=cur->next;
+	}
+	printf("NULL\n");
+}
