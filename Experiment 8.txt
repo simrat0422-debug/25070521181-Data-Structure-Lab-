@@ -1,0 +1,60 @@
+Q 8.1.1 Write a C program to represent a Directed Graph using an adjacency list.
+
+
+
+Functions to be implemented in GraphsAdjacencyListDirectedGraph.c file:
+
+1. void print(int *N) - This function should display the adjacency list of the directed graph.
+
+For each vertex that has outgoing edges, print the vertex followed by =>.
+Print all adjacent vertices separated by a tab character.
+Print each vertex’s adjacency list on a new line.
+
+
+2. void insertVertex(int *N) - This function should insert a new vertex into the graph.
+
+Read the number of edges from existing vertices to the new vertex
+For each such edge, read the source vertex number
+An edge is added from the source vertex to the new vertex
+Read the number of edges from the new vertex to existing vertices
+For each such edge, read the destination vertex number
+An edge is added from the new vertex to the destination vertex
+If an invalid vertex is entered, display:
+
+Sol 8.1.1 #include <stdio.h>
+
+struct node {
+    int vertex;
+    struct node *next;
+};
+
+typedef struct node *GNODE;
+
+GNODE graph[20] = {NULL};
+
+// Create node
+GNODE createNode(int v) {
+    GNODE newNode = (GNODE)malloc(sizeof(struct node));
+    newNode->vertex = v;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Add edge at END (IMPORTANT FIX)
+void addAtEnd(int src, int dest) {
+    GNODE newNode = createNode(dest);
+
+    if (graph[src] == NULL) {
+        graph[src] = newNode;
+    } else {
+        GNODE temp = graph[src];
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = newNode;
+    }
+}
+
+// Print adjacency list
+void print(int *N) {
+    for (int i = 1; i <= *N; i++) {
+}
