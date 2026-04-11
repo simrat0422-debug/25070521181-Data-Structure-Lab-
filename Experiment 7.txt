@@ -1,0 +1,151 @@
+Q 7.1.1 Write a C program to implement a binary search tree with the following functionalities:
+
+Insert(): Insert a node into the binary search tree (BST).
+Inorder(): Perform inorder traversal of the BST.
+Preorder(): Perform preorder traversal of the BST.
+Postorder(): Perform postorder traversal of the BST.
+Delete(): Delete a node from the BST.
+Exit(): Terminate the program.
+
+Sol 7.1.1 #include <stdio.h>
+    int choice, data;
+
+    while (1) {
+        printf("1. Insert Node\n");
+        printf("2. In-Order Traversal\n");
+        printf("3. Pre-Order Traversal\n");
+        printf("4. Post-Order Traversal\n");
+        printf("5. Delete Node\n");
+        printf("6. Exit\n");
+
+        printf("Choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Data: ");
+                scanf("%d", &data);
+                root = insertNode(root, data);
+                break;
+
+            case 2:
+                if (root == NULL)
+                    printf("The tree is empty\n");
+                else {
+                    inorderTraversal(root);
+                    printf("\n");
+                }
+                break;
+
+            case 3:
+                if (root == NULL)
+                    printf("The tree is empty\n");
+                else {
+                    preorderTraversal(root);
+                    printf("\n");
+                }
+                break;
+
+            case 4:
+                if (root == NULL)
+                    printf("The tree is empty\n");
+                else {
+                    postorderTraversal(root);
+                    printf("\n");
+                }
+                break;
+
+            case 5: {
+                printf("Delete: ");
+                scanf("%d", &data);
+                int found = 0;
+                root = deleteNode(root, data, &found);
+                if (!found)
+                    printf("Value not found\n");
+                break;
+            }
+
+            case 6:
+                exit(0);
+
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+
+    return 0;
+}
+
+Q 7.1.2 Write a program to implement the following operations in a Binary Search Tree (BST)
+
+Inserting a node
+Deleting a node
+Search a node
+
+Sol 7.1.2 #include <stdio.h>
+
+        // Node with two children
+        Node* temp = findMin(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+
+// Search in BST
+bool search(Node *root, int key) {
+    if (root == NULL)
+        return false;
+
+    if (root->data == key)
+        return true;
+    else if (key < root->data)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+
+int main() {
+    int opCount;
+    scanf("%d", &opCount);
+    
+    Node *root = NULL;
+    
+    char outputs[MAX_OPS][50];
+    int outIndex = 0;
+    
+    int op, key;
+    for (int i = 0; i < opCount; i++) {
+        scanf("%d", &op);
+        if(op == 1 || op == 2 || op == 3)
+            scanf("%d", &key);
+            
+        switch(op) {
+            case 1: // Insert
+                root = insert(root, key);
+                break;
+
+            case 2: // Delete
+                if(search(root, key))
+                    root = deleteNode(root, key);
+                break;
+
+            case 3: // Search
+                if(search(root, key))
+                    strcpy(outputs[outIndex++], "found");
+                else
+                    strcpy(outputs[outIndex++], "not found");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // Print outputs after all operations
+    for(int i = 0; i < outIndex; i++) {
+        printf("%s\n", outputs[i]);
+    }
+
+    return 0;
+}
