@@ -1,0 +1,76 @@
+Q 9.1.1 Write a C program to implement and perform a Depth-First Search (DFS) on a directed graph represented using an adjacency list. 
+The program should print all vertices reachable from a given starting vertex in the order they are visited by DFS.
+Sol 9.1.1 #include <stdio.h>
+    //write your code here...
+	Node* newNode = createNode(v);
+	newNode->next = adjList[u];
+	adjList[u] = newNode;
+    
+    
+}
+
+// Function to sort the adjacency list for each vertex
+void sortAdjList(int V) {
+    //write your code here...
+    for(int i = 0; i < V; i++){
+
+		for(Node* ptr1 = adjList[i]; ptr1 != NULL; ptr1=ptr1->next){
+			for(Node* ptr2 = ptr1->next; ptr2 != NULL; ptr2=ptr2->next){
+				if(ptr1->vertex > ptr2->vertex) {
+					int temp = ptr1->vertex;
+					ptr1->vertex = ptr2->vertex;
+					ptr2->vertex = temp;
+				}
+			}
+		}
+	}
+    
+}
+
+// Depth-First Search (DFS) function
+void DFS(int start) {
+    //write your code here...
+    
+    visited [start] = 1;
+	printf("%d ", start);
+	Node* temp = adjList[start];
+	while(temp != NULL){
+		int v = temp->vertex;
+		if(!visited[v]) {
+			DFS(v);
+	}
+		temp = temp->next;
+	}
+    
+}
+
+int main() {
+    int V, E;
+    int u, v, start;
+
+    // Read number of vertices and edges
+    scanf("%d %d", &V, &E);
+
+    // Initialize adjacency list
+    for (int i = 0; i < V; i++) {
+        adjList[i] = NULL;
+        visited[i] = 0;
+    }
+
+    // Read the edges
+    for (int i = 0; i < E; i++) {
+        scanf("%d %d", &u, &v);
+        addEdge(u, v);
+    }
+
+    // Sort the adjacency list for each vertex
+    sortAdjList(V);
+
+    // Read the starting node
+    scanf("%d", &start);
+
+    // Perform DFS starting from the given node
+    DFS(start);
+
+    return 0;
+}
